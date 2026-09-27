@@ -10,7 +10,7 @@ const DIM: &str = "\x1b[2m";
 const RESET: &str = "\x1b[0m";
 
 pub const HELP: &str =
-    "Space/p play · h/l prev/next · a/d seek · +/- vol · s shuffle · r repeat · S stop · o show Spotify · q quit";
+    "Space/p play · h/l prev/next · a/d seek · +/- vol · s shuffle · r repeat · o Spotify · q quit";
 
 fn fg(c: Rgb) -> String {
     format!("\x1b[38;2;{};{};{}m", c.0, c.1, c.2)
