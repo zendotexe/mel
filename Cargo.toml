@@ -1,0 +1,20 @@
+[package]
+name = "mel"
+version = "0.2.0"
+edition = "2021"
+description = "A kew-style terminal remote for the Spotify desktop app"
+
+[dependencies]
+base64 = "0.22"
+crossterm = "0.28"
+libc = "0.2"
+image = { version = "0.25", default-features = false, features = ["jpeg", "png"] }
+rustfft = "6"
+serde_json = "1"
+signal-hook = "0.3"
+unicode-width = "0.2"
+ureq = "2"
+
+[profile.release]
+lto = true
+strip = true
