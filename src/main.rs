@@ -1,9 +1,11 @@
+mod auth;
 mod cover;
 mod input;
 mod mpris;
 mod spotify;
 mod ui;
 mod vis;
+mod webapi;
 
 use std::io::{self, Write};
 use std::sync::atomic::{AtomicBool, Ordering};
@@ -56,8 +58,8 @@ fn handle(key: Key, player: &Player) -> Action {
         }
         Key::Char('S') => player.command(&["stop"], mpris::stop),
         Key::Char('o') => {
-            player.show_spotify();
-            return Action::Message("showing Spotify".into());
+            player.toggle_spotify();
+            return Action::Message("toggled Spotify window".into());
         }
         _ => {}
     }
@@ -91,6 +93,14 @@ fn main() -> io::Result<()> {
     }
 
     spotify::launch_hidden();
+
+    let playlist_query = std::env::args().skip(1).collect::<Vec<_>>().join(" ");
+    if !playlist_query.is_empty() {
+        match webapi::play_by_name(&playlist_query) {
+            Ok(name) => println!("mel: playing \"{name}\""),
+            Err(e) => eprintln!("mel: {e}"),
+        }
+    }
 
     let mut ui = ui::Ui::new();
     let kitty = ui.kitty();

@@ -111,7 +111,7 @@ fn spotify_window() -> Option<serde_json::Value> {
     })
 }
 
-pub fn show_window() {
+pub fn toggle_window() {
     let was_running = running();
     if !was_running {
         OWNED.store(true, Ordering::SeqCst);
@@ -125,16 +125,20 @@ pub fn show_window() {
         return;
     };
     let addr = w["address"].as_str().unwrap_or_default();
-    if w["workspace"]["name"]
+    let hidden = w["workspace"]["name"]
         .as_str()
-        .is_some_and(|n| n.starts_with("special:"))
-    {
+        .is_some_and(|n| n.starts_with("special:"));
+    if hidden {
         let active = hypr_json("activeworkspace")
             .and_then(|ws| ws["id"].as_i64())
             .unwrap_or(1);
         hypr_dispatch(&format!(
             r#"hl.dsp.window.move({{ workspace = "{active}", window = "address:{addr}" }})"#
         ));
+        hypr_dispatch(&format!(r#"hl.dsp.focus({{ window = "address:{addr}" }})"#));
+    } else {
+        hypr_dispatch(&format!(
+            r#"hl.dsp.window.move({{ workspace = "{HIDDEN_WS}", window = "address:{addr}", follow = false }})"#
+        ));
     }
-    hypr_dispatch(&format!(r#"hl.dsp.focus({{ window = "address:{addr}" }})"#));
 }

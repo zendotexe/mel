@@ -2,18 +2,24 @@
 
 A [kew](https://github.com/ravachol/kew)-style terminal remote for the Spotify desktop app.
 
-Audio plays in Spotify, mel pulls it over MPRIS and shows the current track
-with album-colored cover art, a band visualizer, a progress bar and custom keybindings
+Plays playlists and songs from Spotify with album-colored text, a band visualizer, a progress bar and custom keybindings
 
-- **Hidden Spotify** – if Spotify isn't running, mel starts it on a hidden
-  Hyprland special workspace (`special:mel`) and closes it again when mel exits.
-  A Spotify that was already open is left alone.
-- **Cover art** – full resolution via the kitty graphics protocol, truecolor
-  half-blocks in other terminals. The accent colour is taken from the cover.
-- **Visualizer** – captured from Spotify's own PipeWire stream, so other apps'
-  audio doesn't move the bars.
-- **Instant controls** – key presses update the screen immediately; changes
-  made in Spotify itself are picked up from MPRIS signals.
+- **Hidden Spotify** – if Spotify isn't running, mel starts it on a hidden Hyprland workspace (Niri support coming soon tm) and closes it again when mel exits
+- **Cover art** – full resolution via the kitty graphics protocol, truecolor blocks in other terminals 
+  The accent colour is taken from the cover.
+- **Visualizer** – captured directly from Spotify's 
+- **Instant controls** – sends commands to spotify to update
+## Playlists
+
+`mel "some playlist"` fuzzy-finds a playlist by name (substring match first,
+then subsequence) and starts playing the first one that matches 
+This needs a Spotify Web API, you can follow this guide:
+
+1. Create an app at https://developer.spotify.com/dashboard (any name).
+2. Add `http://127.0.0.1:8942/callback` as a Redirect URI in the app's settings.
+3. Paste the Client ID when mel prompts for it (or set `MEL_SPOTIFY_CLIENT_ID`).
+
+mel then opens your browser for a one-time login and makes a refresh token in `~/.config/mel/`.
 
 ## Keys
 
@@ -26,7 +32,7 @@ with album-colored cover art, a band visualizer, a progress bar and custom keybi
 | `s` | shuffle |
 | `r` | repeat: off → all → one |
 | `S` | stop |
-| `o` | show the Spotify window |
+| `o` | show/hide the Spotify window |
 | `q` | quit |
 
 ## Requirements

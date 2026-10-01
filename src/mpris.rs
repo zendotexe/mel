@@ -251,7 +251,7 @@ fn command_loop(commands: Receiver<Vec<String>>) {
                 continue;
             }
             if args.first().is_some_and(|a| a == "@show") {
-                crate::spotify::show_window();
+                crate::spotify::toggle_window();
                 continue;
             }
             let refs: Vec<&str> = args.iter().map(String::as_str).collect();
@@ -326,7 +326,7 @@ impl Player {
         }
     }
 
-    pub fn show_spotify(&self) {
+    pub fn toggle_spotify(&self) {
         let _ = self.commands.send(vec!["@show".into()]);
     }
 }
