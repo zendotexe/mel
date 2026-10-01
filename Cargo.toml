@@ -3,6 +3,8 @@ name = "mel"
 version = "0.2.0"
 edition = "2021"
 description = "A kew-style terminal remote for the Spotify desktop app"
+license = "MIT"
+repository = "https://github.com/zendotexe/mel"
 
 [dependencies]
 base64 = "0.22"
